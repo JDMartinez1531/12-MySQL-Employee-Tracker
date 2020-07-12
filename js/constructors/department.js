@@ -3,4 +3,4 @@ var Department = function Department(id, name) {
 	this.name = name;
 };
 
-module.exports = Employee;
+module.exports = Department;
