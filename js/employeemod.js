@@ -17,5 +17,8 @@ function viewEmployeesByManager (mId){
     })
 }
 
+function addEmployee (){
+    
+}
 
-module.exports = {viewEmployees, viewEmployeesByManager};
+module.exports = {viewEmployees, viewEmployeesByManager, addEmployee};
