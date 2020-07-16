@@ -5,8 +5,16 @@ const {
 	addDepartment,
 	getDepartmentList,
 } = require("./departmentmod");
-const { viewRoles } = require("./rolemod");
-const { viewEmployees, viewEmployeesByManager ,addEmployee } = require("./employeemod");
+const {
+	viewRoles,
+	createRole,
+	returnDepartmentIdForRole,
+} = require("./rolemod");
+const {
+	viewEmployees,
+	viewEmployeesByManager,
+	addEmployee,
+} = require("./employeemod");
 
 const mainMenu = [
 	{
@@ -17,16 +25,10 @@ const mainMenu = [
 			"View Departments",
 			"View Roles",
 			"View Employees",
-			"View Employees by Manager",
-			"View Department Utilized Budget",
 			"Add Department",
 			"Add Role",
 			"Add Employee",
 			"Update Existing Employee's Role",
-			"Update Employee's Manager",
-			"Delete Department",
-			"Delete Role",
-			"Delete Employee",
 		],
 	},
 ];
@@ -50,56 +52,67 @@ function getdepartment() {
 			addDepartment(answer);
 		});
 }
-
+// defines role data
 function getRole() {
-	// var deptList = getDepartmentList();
-	inquirer.prompt([
-		{
-			type: "input",
-			name: "role",
-			message: "Please enter title of new role",
-		},
-		{
-			type: "input",
-			name: "salary",
-			message: "Please enter salary for this role",
-		},
-		{
-			type: "list",
-			name: "dept",
-			message: "Please select department to assign this role",
-			choices: getDepartmentList(),
-		},
-	]);
+	getDepartmentList().then((data) => {
+		inquirer
+			.prompt([
+				{
+					type: "input",
+					name: "title",
+					message: "Please enter title of new role",
+				},
+				{
+					type: "input",
+					name: "salary",
+					message: "Please enter salary for this role",
+				},
+				{
+					type: "list",
+					name: "dept",
+					message: "Please select department to assign this role",
+					choices: data,
+				},
+			])
+
+			.then((answers) => {
+				returnDepartmentIdForRole(answers.dept).then((departmentId) => {
+					const role = new Role(answers.title, answers.salary, departmentId);
+					createRole(role);
+				});
+			});
+	});
 }
 
 function getEmployee() {
-	inquirer.prompt([
-		{
-			type: "input",
-			name: "firstName",
-			message: "Please enter new employee's first name",
-		},
-		{
-			type: "input",
-			name: "lastName",
-			message: "Please enter new employee's last name",
-		},
-		{
-			type: "input",
-			name: "roleId",
-			message: "Please enter new employee role ID"
-		},
-		{
-			type: "input",
-			name: "managerId",
-			message: "Please enter the ID of new employee's manager. (leave field blank if new employee is a manager",
-			default: null
-		}
-	])
-	.then(answer => {
-		addEmployee(answer)
-	})
+	inquirer
+		.prompt([
+			{
+				type: "input",
+				name: "firstName",
+				message: "Please enter new employee's first name",
+			},
+			{
+				type: "input",
+				name: "lastName",
+				message: "Please enter new employee's last name",
+			},
+			{
+				type: "input",
+				name: "roleId",
+				message: "Please enter new employee role ID",
+			},
+			{
+				type: "input",
+				name: "managerId",
+				message:
+					"Please enter the ID of new employee's manager. (leave field blank if new employee is a manager",
+				default: null,
+			},
+		])
+		.then((answer) => {
+			addEmployee(answer);
+		});
 }
 
 function showMain() {
@@ -117,9 +130,6 @@ function showMain() {
 				break;
 			case "View Employees by Manager":
 				viewEmployeesByManager();
-				break;
-			case "View Department Utilized Budget":
-				viewDepartmentBudget();
 				break;
 			case "Add Department":
 				getdepartment();

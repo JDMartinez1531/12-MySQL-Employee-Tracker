@@ -10,14 +10,17 @@ function viewDepartments() {
 }
 
 function getDepartmentList() {
-	connection.query("SELECT * FROM department", function (err, res) {
-		if (err) throw err;
-		deptListArray = [];
-		for (var i = 0; i < res.length; i++) {
-            deptListArray.push(res[i].name);
-        }
-        return deptListArray;
-	});
+    return new Promise(function(resolve, reject) {
+        connection.query("SELECT * FROM department", function (err, res) {
+            if (err) throw err;
+            deptListArray = [];
+            for (var i = 0; i < res.length; i++) {
+                deptListArray.push(res[i]);
+            }
+    
+            resolve(deptListArray);
+        });
+    })
 }
 
 
