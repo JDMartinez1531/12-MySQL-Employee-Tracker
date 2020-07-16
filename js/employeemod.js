@@ -24,4 +24,12 @@ function addEmployee (employee){
     })
 }
 
-module.exports = {viewEmployees, viewEmployeesByManager, addEmployee};
+function updateEmployeeRole (newData) {
+    const {empId, newRoleId} = newData;
+    connection.query(`UPDATE employee SET role_id = ${newRoleId} WHERE id = ${empId}`, function (err, res){
+        if (err) throw err;
+        viewEmployees();
+    })
+}
+
+module.exports = {viewEmployees, viewEmployeesByManager, addEmployee, updateEmployeeRole};
