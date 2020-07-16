@@ -1,9 +1,9 @@
-const {showMain} = require("./js/prompt.js")
+const { showMain } = require("./js/prompt.js");
 
-function start(){
-    showMain();
+function start() {
+	showMain();
 }
 
 start();
 
-module.exports = {start}
+module.exports = { start };

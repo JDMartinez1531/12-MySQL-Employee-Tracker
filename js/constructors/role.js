@@ -1,5 +1,4 @@
-var Role = function Role(id, title, salary, department_id) {
-	this.id = id;
+var Role = function Role(title, salary, department_id) {
 	this.title = title;
 	this.salary = salary;
 	this.department_id = department_id;
