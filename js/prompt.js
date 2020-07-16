@@ -15,6 +15,7 @@ const {
 	viewEmployees,
 	viewEmployeesByManager,
 	addEmployee,
+	updateEmployeeRole,
 } = require("./employeemod");
 
 const mainMenu = [
@@ -112,8 +113,32 @@ function getEmployee() {
 			},
 		])
 		.then((answer) => {
-			const employee = new Employee(answer.firstName, answer.lastName, answer.roleId, answer.managerId)
+			const employee = new Employee(
+				answer.firstName,
+				answer.lastName,
+				answer.roleId,
+				answer.managerId
+			);
 			addEmployee(employee);
+		});
+}
+
+function updateEmployeeData() {
+	inquirer
+		.prompt([
+			{
+				type: "input",
+				name: "empId",
+				message: "Please enter the ID of the Employee you would like to update",
+			},
+			{
+				type: "input",
+				name: "newRoleId",
+				message: "Please enter Employee's new Role ID",
+			},
+		])
+		.then((answer) => {
+			updateEmployeeRole(answer);
 		});
 }
 
@@ -141,6 +166,9 @@ function showMain() {
 				break;
 			case "Add Employee":
 				getEmployee();
+				break;
+			case "Update Existing Employee's Role":
+				updateEmployeeData();
 				break;
 		}
 	});
