@@ -17,8 +17,11 @@ function viewEmployeesByManager (mId){
     })
 }
 
-function addEmployee (){
-    
+function addEmployee (employee){
+    connection.query("INSERT INTO employee SET ?", employee, function (err, res){
+        if (err) throw err;
+        viewEmployees();
+    })
 }
 
 module.exports = {viewEmployees, viewEmployeesByManager, addEmployee};

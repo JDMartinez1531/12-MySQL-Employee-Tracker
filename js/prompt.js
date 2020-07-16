@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const Role = require("./constructors/role");
+const Employee = require("./constructors/employee");
 const {
 	viewDepartments,
 	addDepartment,
@@ -100,7 +101,7 @@ function getEmployee() {
 			{
 				type: "input",
 				name: "roleId",
-				message: "Please enter new employee role ID",
+				message: "Please enter new employee's role ID",
 			},
 			{
 				type: "input",
@@ -111,7 +112,8 @@ function getEmployee() {
 			},
 		])
 		.then((answer) => {
-			addEmployee(answer);
+			const employee = new Employee(answer.firstName, answer.lastName, answer.roleId, answer.managerId)
+			addEmployee(employee);
 		});
 }
 
